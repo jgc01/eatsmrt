@@ -1,0 +1,37 @@
+﻿@model EatIn.Models.FridgeIngredient
+
+@{
+    ViewBag.Title = "Create";
+}
+
+<tr class="ingredientTable">
+    <td>
+        @Html.TextBoxFor(model => model.Ingredient.Title, new { @class = "form-control", id = "fakeIngredientTitle", placeholder = "ingredient" })
+        @Html.ValidationMessageFor(model => model.Ingredient.Title, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.TextBoxFor(model => model.Amount, new { @class = "form-control", id = "fakeIngredientAmount", placeholder = "amount" } )
+        @Html.ValidationMessageFor(model => model.Amount, "", new { @class = "text-danger" })
+    </td>
+    <td>
+        @Html.DropDownListFor(model => model.Measurement.unit, (SelectList)ViewBag.MeasurementId, new { @class = "form-control", id = "fakeMeasurementUnit"})
+        @Html.ValidationMessageFor(model => model.Measurement.unit, "", new { @class = "text-danger"})
+    </td>
+    <td>
+        @using (Html.BeginForm("Create", "FridgeIngredients", FormMethod.Post, new { id = "submitter" }))
+        {
+            @Html.AntiForgeryToken()
+
+
+            <input type="hidden" name="Title" id="Title" />
+
+            <input type="hidden" name="Amount" id="Amount" />
+
+            <input type="hidden" name="MeasurementId" id="MeasurementId" />
+
+            <button value="Create" class="btn btn-default" onclick="return onSubmit()"><i class="fas fa-plus-square fa-lg"></i></button>
+        }
+    </td>
+</tr>
+
+

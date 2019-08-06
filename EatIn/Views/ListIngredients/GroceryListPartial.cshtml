@@ -1,0 +1,32 @@
+﻿@model IEnumerable<EatIn.Models.ListIngredient>
+
+<table class="table" id="ingredientList">
+    <caption style="font-weight:bold">
+        @DateTime.Now.ToString("dddd, dd MMMM yyyy"): Shopping List
+    </caption>
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Amount)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Unit)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+    </tr>
+    @foreach (var missedIngredient in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => missedIngredient.Amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => missedIngredient.Unit)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => missedIngredient.Name)
+            </td>
+        </tr>
+    }
+</table>

@@ -1,0 +1,50 @@
+﻿@model EatIn.Models.FridgeIngredient
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>FridgeIngredient</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Amount)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Amount)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Ingredient.Title)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Ingredient.Title)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Measurement.unit)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Measurement.unit)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.UserProfile.FirstName)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.UserProfile.FirstName)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.Id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

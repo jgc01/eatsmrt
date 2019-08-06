@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="38c97de22cb9498391698601dfef9611" Name="Diagram1">
+        <EntityTypeShape EntityType="EatInDBModel.Ingredient" Width="1.5" PointX="6" PointY="3" IsExpanded="true" />
+        <EntityTypeShape EntityType="EatInDBModel.Measurement" Width="1.5" PointX="6" PointY="5" IsExpanded="true" />
+        <EntityTypeShape EntityType="EatInDBModel.UserProfile" Width="1.5" PointX="0.75" PointY="1" IsExpanded="true" />
+        <EntityTypeShape EntityType="EatInDBModel.FridgeIngredient" Width="1.5" PointX="3.5" PointY="3.75" />
+        <AssociationConnector Association="EatInDBModel.FK__FridgeIng__Ingre__47DBAE45" />
+        <AssociationConnector Association="EatInDBModel.FK__FridgeIng__Measu__48CFD27E" />
+        <AssociationConnector Association="EatInDBModel.FK__FridgeIng__UserP__46E78A0C" />
+        <EntityTypeShape EntityType="EatInDBModel.ListIngredient" Width="1.5" PointX="3.5" PointY="0.75" />
+        <AssociationConnector Association="EatInDBModel.FK__ListIngre__UserP__5CD6CB2B" />
+        </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>

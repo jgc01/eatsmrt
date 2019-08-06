@@ -1,0 +1,106 @@
+﻿@model IEnumerable<EatIn.Models.ViewModels.API_RecipeVM>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Recipes</h2>
+
+<table class="table">
+
+@foreach (var item in Model) {
+    <tr>
+        <td width="50%">
+            <h3>@Html.DisplayFor(modelItem => item.title)</h3>
+            <br />
+            <img src="@item.image" />
+        </td>
+        <td>
+            <h5 style="font-weight:bold">Information</h5>
+            Servings: @Html.DisplayFor(modelItem => item.recipeDetails.servings)<br />
+            Vegetarian: @Html.DisplayFor(modelItem => item.recipeDetails.vegetarian)<br />
+            Vegan: @Html.DisplayFor(modelItem => item.recipeDetails.vegan)<br />
+            Gluten Free: @Html.DisplayFor(modelItem => item.recipeDetails.glutenFree)<br />
+            Dairy Free: @Html.DisplayFor(modelItem => item.recipeDetails.dairyFree)
+        </td>
+        <td>
+            <h5 style="font-weight:bold">Ingredients Used</h5>
+            @foreach (var ingreident in item.usedIngredients)
+            {
+                <p>
+                    @Html.DisplayFor(modelItem => ingreident.name)
+                </p>
+            }
+        </td>
+        <td>
+            <h5 style="font-weight:bold">Missing Ingredients</h5>
+            <form id="@("toListForm" + item.id)" action="@Url.Action("CreateMany", "ListIngredients")" method="post">
+                @Html.AntiForgeryToken()
+                @{
+                    int i = 0;
+                }
+
+                @foreach (var ingredient in item.missedIngredients)
+                {
+                    string emptyUnit = "";
+                    if (string.IsNullOrEmpty(ingredient.unit))
+                    {
+                        emptyUnit = " ";
+                    }
+                    else
+                    {
+                        emptyUnit = ingredient.unit;
+                    }
+                    <p>
+                        @Html.DisplayFor(modelItem => ingredient.name)
+                    </p>
+
+                    <input type="hidden" name="[@i].Amount" value="@ingredient.amount" />
+                    <input type="hidden" name="[@i].Name" value="@ingredient.name"/>
+                    <input type="hidden" name="[@i].Unit" value="@emptyUnit"/>
+                    <input type="hidden" name="[@i].RecipeTitle" value="@item.title" />
+                    <input type="hidden" name="[@i].RecipeUrl" value=""/>
+
+                    i++;
+                }
+                <button class="btn btn-default" onclick="return toList(@item.id)" value="submit" id="@("toListSubmitBtn" + item.id)">Add To List</button>
+            </form>
+        </td>
+        <td>
+            @Html.ActionLink("Details", "Details", new { id = item.id }, new { @class = "btn btn-default", target = " _blank" })
+        </td>
+    </tr>
+}
+
+</table>
+
+@section scripts
+    {
+    <script type="text/javascript">
+        function toList(itemId) {
+            var formId = "#toListForm" + itemId;
+            var submitButtonId = "#toListSubmitBtn" + itemId;
+
+            $.ajax
+                ({
+                type: 'POST',
+                url: $(formId).attr("action"),
+                data: $(formId).serialize(),
+                })
+                .then(function () {
+                    $(submitButtonId).attr("disabled", "disabled");
+                    $(formId).addClass("disabledClass");
+                })
+            return false;
+        }
+    </script>
+    }
+
+<style>
+    .disabledClass{
+        opacity: .33
+    }
+</style>
+
+
+

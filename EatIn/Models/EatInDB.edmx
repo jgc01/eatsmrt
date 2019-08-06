@@ -1,0 +1,331 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="EatInDBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="FridgeIngredient">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserProfileId" Type="nvarchar" MaxLength="128" />
+          <Property Name="IngredientId" Type="int" Nullable="false" />
+          <Property Name="Amount" Type="float" Nullable="false" />
+          <Property Name="MeasurementId" Type="int" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Ingredient">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Title" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ListIngredient">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserProfileId" Type="nvarchar" MaxLength="128" />
+          <Property Name="Amount" Type="float" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="Unit" Type="nvarchar" MaxLength="64" Nullable="false" />
+          <Property Name="RecipeTitle" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="RecipeUrl" Type="nvarchar" MaxLength="2084" />
+        </EntityType>
+        <EntityType Name="Measurement">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="unit" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="FirstName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="LastName" Type="nvarchar" MaxLength="128" Nullable="false" />
+          <Property Name="EmailAddress" Type="nvarchar" MaxLength="256" Nullable="false" />
+        </EntityType>
+        <Association Name="FK__FridgeIng__Ingre__47DBAE45">
+          <End Role="Ingredient" Type="Self.Ingredient" Multiplicity="1" />
+          <End Role="FridgeIngredient" Type="Self.FridgeIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ingredient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FridgeIngredient">
+              <PropertyRef Name="IngredientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FridgeIng__Measu__48CFD27E">
+          <End Role="Measurement" Type="Self.Measurement" Multiplicity="1" />
+          <End Role="FridgeIngredient" Type="Self.FridgeIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Measurement">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FridgeIngredient">
+              <PropertyRef Name="MeasurementId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FridgeIng__UserP__46E78A0C">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="FridgeIngredient" Type="Self.FridgeIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="FridgeIngredient">
+              <PropertyRef Name="UserProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__ListIngre__UserP__5CD6CB2B">
+          <End Role="UserProfile" Type="Self.UserProfile" Multiplicity="0..1" />
+          <End Role="ListIngredient" Type="Self.ListIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ListIngredient">
+              <PropertyRef Name="UserProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="EatInDBModelStoreContainer">
+          <EntitySet Name="FridgeIngredient" EntityType="Self.FridgeIngredient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Ingredient" EntityType="Self.Ingredient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ListIngredient" EntityType="Self.ListIngredient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Measurement" EntityType="Self.Measurement" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserProfile" EntityType="Self.UserProfile" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__FridgeIng__Ingre__47DBAE45" Association="Self.FK__FridgeIng__Ingre__47DBAE45">
+            <End Role="Ingredient" EntitySet="Ingredient" />
+            <End Role="FridgeIngredient" EntitySet="FridgeIngredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FridgeIng__Measu__48CFD27E" Association="Self.FK__FridgeIng__Measu__48CFD27E">
+            <End Role="Measurement" EntitySet="Measurement" />
+            <End Role="FridgeIngredient" EntitySet="FridgeIngredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FridgeIng__UserP__46E78A0C" Association="Self.FK__FridgeIng__UserP__46E78A0C">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="FridgeIngredient" EntitySet="FridgeIngredient" />
+          </AssociationSet>
+          <AssociationSet Name="FK__ListIngre__UserP__5CD6CB2B" Association="Self.FK__ListIngre__UserP__5CD6CB2B">
+            <End Role="UserProfile" EntitySet="UserProfile" />
+            <End Role="ListIngredient" EntitySet="ListIngredient" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="EatInDBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Ingredient">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Title" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="FridgeIngredients" Relationship="EatInDBModel.FK__FridgeIng__Ingre__47DBAE45" FromRole="Ingredient" ToRole="FridgeIngredient" />
+        </EntityType>
+        <EntityType Name="Measurement">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="unit" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="FridgeIngredients" Relationship="EatInDBModel.FK__FridgeIng__Measu__48CFD27E" FromRole="Measurement" ToRole="FridgeIngredient" />
+        </EntityType>
+        <EntityType Name="UserProfile">
+          <Key>
+            <PropertyRef Name="UserId" />
+          </Key>
+          <Property Name="UserId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="FirstName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="LastName" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
+          <Property Name="EmailAddress" Type="String" MaxLength="256" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="FridgeIngredients" Relationship="EatInDBModel.FK__FridgeIng__UserP__46E78A0C" FromRole="UserProfile" ToRole="FridgeIngredient" />
+          <NavigationProperty Name="ListIngredients" Relationship="EatInDBModel.FK__ListIngre__UserP__5CD6CB2B" FromRole="UserProfile" ToRole="ListIngredient" />
+        </EntityType>
+        <EntityContainer Name="EatInDBEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Ingredients" EntityType="Self.Ingredient" />
+          <EntitySet Name="Measurements" EntityType="Self.Measurement" />
+          <EntitySet Name="UserProfiles" EntityType="Self.UserProfile" />
+          <EntitySet Name="FridgeIngredients" EntityType="EatInDBModel.FridgeIngredient" />
+          <AssociationSet Name="FK__FridgeIng__Ingre__47DBAE45" Association="EatInDBModel.FK__FridgeIng__Ingre__47DBAE45">
+            <End Role="Ingredient" EntitySet="Ingredients" />
+            <End Role="FridgeIngredient" EntitySet="FridgeIngredients" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FridgeIng__Measu__48CFD27E" Association="EatInDBModel.FK__FridgeIng__Measu__48CFD27E">
+            <End Role="Measurement" EntitySet="Measurements" />
+            <End Role="FridgeIngredient" EntitySet="FridgeIngredients" />
+          </AssociationSet>
+          <AssociationSet Name="FK__FridgeIng__UserP__46E78A0C" Association="EatInDBModel.FK__FridgeIng__UserP__46E78A0C">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="FridgeIngredient" EntitySet="FridgeIngredients" />
+          </AssociationSet>
+          <EntitySet Name="ListIngredients" EntityType="EatInDBModel.ListIngredient" />
+          <AssociationSet Name="FK__ListIngre__UserP__5CD6CB2B" Association="EatInDBModel.FK__ListIngre__UserP__5CD6CB2B">
+            <End Role="UserProfile" EntitySet="UserProfiles" />
+            <End Role="ListIngredient" EntitySet="ListIngredients" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="FridgeIngredient">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserProfileId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="IngredientId" Type="Int32" Nullable="false" />
+          <Property Name="Amount" Type="Double" Nullable="false" />
+          <Property Name="MeasurementId" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="Ingredient" Relationship="EatInDBModel.FK__FridgeIng__Ingre__47DBAE45" FromRole="FridgeIngredient" ToRole="Ingredient" />
+          <NavigationProperty Name="Measurement" Relationship="EatInDBModel.FK__FridgeIng__Measu__48CFD27E" FromRole="FridgeIngredient" ToRole="Measurement" />
+          <NavigationProperty Name="UserProfile" Relationship="EatInDBModel.FK__FridgeIng__UserP__46E78A0C" FromRole="FridgeIngredient" ToRole="UserProfile" />
+        </EntityType>
+        <Association Name="FK__FridgeIng__Ingre__47DBAE45">
+          <End Type="EatInDBModel.Ingredient" Role="Ingredient" Multiplicity="1" />
+          <End Type="EatInDBModel.FridgeIngredient" Role="FridgeIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Ingredient">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FridgeIngredient">
+              <PropertyRef Name="IngredientId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FridgeIng__Measu__48CFD27E">
+          <End Type="EatInDBModel.Measurement" Role="Measurement" Multiplicity="1" />
+          <End Type="EatInDBModel.FridgeIngredient" Role="FridgeIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Measurement">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="FridgeIngredient">
+              <PropertyRef Name="MeasurementId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__FridgeIng__UserP__46E78A0C">
+          <End Type="EatInDBModel.UserProfile" Role="UserProfile" Multiplicity="0..1" />
+          <End Type="EatInDBModel.FridgeIngredient" Role="FridgeIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="FridgeIngredient">
+              <PropertyRef Name="UserProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="ListIngredient">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserProfileId" Type="String" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Amount" Type="Double" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="Unit" Type="String" Nullable="false" MaxLength="64" FixedLength="false" Unicode="true" />
+          <Property Name="RecipeTitle" Type="String" Nullable="false" MaxLength="128" FixedLength="false" Unicode="true" />
+          <Property Name="RecipeUrl" Type="String" MaxLength="2084" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="UserProfile" Relationship="EatInDBModel.FK__ListIngre__UserP__5CD6CB2B" FromRole="ListIngredient" ToRole="UserProfile" />
+        </EntityType>
+        <Association Name="FK__ListIngre__UserP__5CD6CB2B">
+          <End Type="EatInDBModel.UserProfile" Role="UserProfile" Multiplicity="0..1" />
+          <End Type="EatInDBModel.ListIngredient" Role="ListIngredient" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserProfile">
+              <PropertyRef Name="UserId" />
+            </Principal>
+            <Dependent Role="ListIngredient">
+              <PropertyRef Name="UserProfileId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="EatInDBModelStoreContainer" CdmEntityContainer="EatInDBEntities">
+          <EntitySetMapping Name="Ingredients">
+            <EntityTypeMapping TypeName="EatInDBModel.Ingredient">
+              <MappingFragment StoreEntitySet="Ingredient">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Title" ColumnName="Title" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Measurements">
+            <EntityTypeMapping TypeName="EatInDBModel.Measurement">
+              <MappingFragment StoreEntitySet="Measurement">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="unit" ColumnName="unit" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserProfiles">
+            <EntityTypeMapping TypeName="EatInDBModel.UserProfile">
+              <MappingFragment StoreEntitySet="UserProfile">
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="FirstName" ColumnName="FirstName" />
+                <ScalarProperty Name="LastName" ColumnName="LastName" />
+                <ScalarProperty Name="EmailAddress" ColumnName="EmailAddress" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="FridgeIngredients">
+            <EntityTypeMapping TypeName="EatInDBModel.FridgeIngredient">
+              <MappingFragment StoreEntitySet="FridgeIngredient">
+                <ScalarProperty Name="MeasurementId" ColumnName="MeasurementId" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="IngredientId" ColumnName="IngredientId" />
+                <ScalarProperty Name="UserProfileId" ColumnName="UserProfileId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ListIngredients">
+            <EntityTypeMapping TypeName="EatInDBModel.ListIngredient">
+              <MappingFragment StoreEntitySet="ListIngredient">
+                <ScalarProperty Name="RecipeUrl" ColumnName="RecipeUrl" />
+                <ScalarProperty Name="RecipeTitle" ColumnName="RecipeTitle" />
+                <ScalarProperty Name="Unit" ColumnName="Unit" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Amount" ColumnName="Amount" />
+                <ScalarProperty Name="UserProfileId" ColumnName="UserProfileId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

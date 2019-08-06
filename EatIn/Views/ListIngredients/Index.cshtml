@@ -1,0 +1,161 @@
+﻿@using Microsoft.AspNet.Identity;
+
+@model IEnumerable<EatIn.Models.ListIngredient>
+
+@{
+    ViewBag.Title = "Index";
+    
+}
+
+<div id="delete_message">
+    <br /><br /><br />
+    <h2>Clear Grocery List?</h2>
+    <input type="button" value="Delete" id="delete" onclick="return DeleteAll('@User.Identity.GetUserId()')">
+    <input type="button" value="Cancel" id="cancel">
+</div>
+
+<h2>Grocery List</h2>
+
+<div style="float:right; padding:0px 0px 10px 0px; display:inline-flex">
+
+
+    @using (Html.BeginForm("EmailGroceryList", "ListIngredients", FormMethod.Post))
+    {
+        <input type="submit" class="btn btn-default" value="Email List" />
+    }
+    <button class="btn btn-danger" id="test_delete">Clear List</button>
+</div>
+
+@Html.Action("GroceryListPartial")
+
+
+<button class="collapsible btn btn-default" >Show Details</button>
+<div class="content" style="display:none;overflow:hidden">
+    @foreach (IGrouping<string, EatIn.Models.ListIngredient> grouping in ViewBag.byRecipe)
+    {
+        <table class="table" id="ingredientList">
+            <caption style="font-weight:bold">
+                @Html.DisplayFor(ModelItem => grouping.Key)
+            </caption>
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Amount)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Unit)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th></th>
+            </tr>
+            @foreach (var prop in grouping)
+            {
+                <tr>
+                    <td>
+                        @Html.DisplayFor(modelItem => prop.Amount)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => prop.Unit)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => prop.Name)
+
+                        <form action="@Url.Action("DeleteMany")" id='@("deleteAllForm" + prop.UserProfileId)'>
+                            <input type="hidden" name="UserProfileId" value="@prop.UserProfileId" />
+                            @Html.AntiForgeryToken()
+                        </form>
+                    </td>
+                </tr>
+            }
+        </table>
+    }
+</div>
+
+    @section scripts
+    {
+        <script type="text/javascript">
+            $(document).ready(function () {
+                $("#test_delete").click(function () {
+                    message();
+                });
+                $("#cancel").click(function () {
+                    hide();
+                });
+            });
+
+            function message() {
+                $("#delete_message").slideDown();
+            }
+
+            function hide() {
+                $("#delete_message").slideUp();
+            }
+
+            function DeleteAll(propUserProfileId) {
+                var formId = "#deleteAllForm" + propUserProfileId;
+                $.ajax({
+                    type: 'POST',
+                    url: $(formId).attr("action"),
+                    data: $(formId).serialize(),
+                })
+
+                    .then(function (data) { location.reload() })
+                return false;
+    }
+
+        var coll = document.getElementsByClassName("collapsible");
+var i;
+
+for (i = 0; i < coll.length; i++) {
+  coll[i].addEventListener("click", function() {
+    this.classList.toggle("active");
+    var content = this.nextElementSibling;
+    if (content.style.display === "block") {
+      content.style.display = "none";
+    } else {
+      content.style.display = "block";
+    }
+  });
+}
+        </script>
+    }
+
+    <style>
+
+        #delete_message {
+            display: none;
+            position: fixed;
+            left: 0px;
+            top: 0px;
+            width: 100%;
+            height: 200px;
+            background-color: #C0C0C0;
+            text-align: center;
+        }
+
+            #delete_message h2 {
+                color: #fff;
+            }
+
+        #delete, #cancel {
+            border: none;
+            background: none;
+            width: 100px;
+            height: 40px;
+            font-size: 18px;
+            border-radius: 5px;
+            border: 1px solid white;
+            background-color: #DCDCDC;
+            margin: 10px;
+            color: #fff;
+        }
+
+        h1 {
+            text-align: center;
+            margin-top: 200px;
+            color: #fff;
+            width: 600px;
+            margin-left: 200px;
+        }
+    </style>

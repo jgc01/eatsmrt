@@ -1,0 +1,116 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eat smrt | Change The Way You Eat</title>
+    <link rel="icon" href="~/Images/logo1.png" />
+    <link href="~/Content/loader.css" rel="stylesheet" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/modernizr")
+</head>
+<body>
+
+    <div id="loader" style="display:none">
+        <div class="loader-container">
+            <div class="group-1">
+                <div class="line line1">
+                    <div class="dash dash-1 exp-40 div"></div>
+                    <div class="dash dash-2 exp-70 class-name"></div>
+                    <div class="dash dash-3 exp-110 class"></div>
+                    <div class="dash dash-4 exp-70 class"></div>
+                </div>
+                <div class="line line2">
+                    <div class="dash dash-1 exp-40 div"></div>
+                    <div class="dash dash-2 exp-70 class-name"></div>
+                    <div class="dash dash-3 exp-90 class"></div>
+                </div>
+                <div class="line line3">
+                    <div class="dash dash-1 exp-300 par"></div>
+                </div>
+                <div class="line line4">
+                    <div class="dash dash-1 exp-200 par"></div>
+                </div>
+                <div class="line line5">
+                    <div class="dash dash-1 exp-40 div"></div>
+                </div>
+                <div class="line line6">
+                    <div class="dash dash-1 exp-40 div"></div>
+                </div>
+            </div>
+
+
+            <div class="group-2">
+                <div class="line line1">
+                    <div class="dash dash-1 div"></div>
+                    <div class="dash dash-2 class-name"></div>
+                    <div class="dash dash-3 class"></div>
+                    <div class="dash dash-4 class"></div>
+                </div>
+                <div class="line line2">
+                    <div class="dash dash-1 div"></div>
+                    <div class="dash dash-2 exp70 class-name"></div>
+                    <div class="dash dash-3 exp90 class"></div>
+                </div>
+                <div class="line line3">
+                    <div class="dash dash-1 par"></div>
+                </div>
+                <div class="line line4">
+                    <div class="dash dash-1 par"></div>
+                </div>
+                <div class="line line5">
+                    <div class="dash dash-1 div"></div>
+                </div>
+                <div class="line line6">
+                    <div class="dash dash-1 div"></div>
+                </div>
+            </div>
+        </div>
+        <h3 style="text-align:center; padding-top:33%">Fetching Recipes...</h3>
+    </div>
+
+
+
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                @Html.ActionLink("eat smrt", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+            </div>
+            <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("My Fridge", "Index", "FridgeIngredients")</li>
+                    <li onclick="showLoader()">@Html.ActionLink("Recipes", "Index", "Search")</li>
+                    <li>@Html.ActionLink("Grocery List", "Index", "ListIngredients")</li>
+                </ul>
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+
+    <div class="container body-content" id="body-content">
+        @RenderBody()
+    </div>
+
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("scripts", required: false)
+    <script src="https://kit.fontawesome.com/372b98323d.js"></script>
+    <script>
+        function showLoader() {
+            var x = document.getElementById("loader");
+            var body = document.getElementById("body-content");
+    if (x.style.display === "none") {
+        x.style.display = "block";
+        body.style.display = "none";
+            } else {
+                x.style.display = "none";
+            }
+        }
+    </script>
+</body>
+</html>

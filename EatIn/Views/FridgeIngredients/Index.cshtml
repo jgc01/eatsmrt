@@ -1,0 +1,110 @@
+﻿@model IEnumerable<EatIn.Models.FridgeIngredient>
+
+@{
+    ViewBag.Title = "Index";
+}
+<div class="container" style="display:flex">
+
+    <div class="jumbotron" style="float:left; width:600px;text-align:center">
+        <h2 style="font-weight:bolder">Stock Your Fridge</h2>
+        <p>
+            In the text box below, enter the name of an ingredient that you want to cook with, along with the quantity and unit of measurement. <br />
+            For self contained items like 'eggs' that do not typically require a unit of measurement, leave as 'N/A'.
+        </p>
+    </div>
+    <div class="jumbotron" style="float:right; background-color:#fff; width:600px; text-align:center">
+        <h2 style="font-weight:bolder; padding-top:10px">
+            Get Your Recipes
+        </h2>
+        <p>
+            Once you've fully stocked your fridge with all the ingredients that you currently have on hand, press the 'Recipes' link in the navigation bar and eat smrt
+            will analyze your fridge's contents and fetch your recipe list.
+        </p>
+        <br />
+    </div>
+</div>
+<table class="table" style="width:100%;padding:50px">
+    <thead>
+        <tr>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Ingredient.Title)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Amount)
+            </th>
+            <th scope="col">
+                @Html.DisplayNameFor(model => model.Measurement.unit)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+
+    @foreach (var item in Model)
+    {
+        <tbody>
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Ingredient.Title)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Amount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Measurement.unit)
+                </td>
+                <td>
+                    <form action="@Url.Action("Delete")" id="@("deleteForm" + item.Id)">
+                        <input type="hidden" name="id" value="@item.Id" />
+                        @Html.AntiForgeryToken()
+                    </form>
+                    <button class="btn btn-default" onclick="return deleteItem(@item.Id)"><i class="fas fa-trash-alt fa-lg"></i></button>
+                </td>
+            </tr>
+        </tbody>
+    }
+    <tbody>
+        <tr>
+            @Html.Action("Create")
+        </tr>
+    </tbody>
+</table>
+
+
+@section scripts
+    {
+    <script type="text/javascript">
+        function onSubmit() {
+
+            var fakeAmount = $("#fakeIngredientAmount").val();
+            $("#Amount").val(fakeAmount)
+
+            var fakeTitle = $("#fakeIngredientTitle").val();
+            $("#Title").val(fakeTitle)
+
+            var fakeUnit = $("#fakeMeasurementUnit").val();
+            $("#MeasurementId").val(fakeUnit)
+
+            $.ajax({
+                type: 'POST',
+                url: $("#submitter").attr("action"),
+                data: $("#submitter").serialize(),
+            })
+
+                .then(function (data) { location.reload() })
+            return false;
+        }
+
+        function deleteItem(itemId) {
+            var formId = "#deleteForm" + itemId;
+
+            $.ajax({
+                type: 'POST',
+                url: $(formId).attr("action"),
+                data: $(formId).serialize(),
+            })
+
+                .then(function (data) { location.reload() })
+            return false;
+        }
+    </script>
+}
